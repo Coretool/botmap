@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "colors": "^1.1.2",
-    "prompt": "^0.2.14"
+    "prompt-sync": "^3.0.0"
   }
 }

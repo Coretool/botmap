@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { exec } from 'child_process'
 import c from 'colors/safe'
-import p from 'prompt'
+import { prompt as p } from 'prompt'
 
 //set theme
 c.setTheme({
@@ -22,12 +22,12 @@ function userAuth() {
  console.warn(c.warn("Note,that you need the permission of the target's owner !"))
  console.warn(c.warn('Are you sure you want to scan and attack: \n' + target))
  console.log(c.prompt('Press y to continue'))
- p.start()
- p.get('input', (err, result) => {
-  if (result.input != 'y') {
-   process.exit(1)
-  }
- })
+let input = prompt()
+
+if (input != 'y') {
+  console.log(info('Maybe a wise decision..'))
+  process.exit(1)
+}
 }
 
 //perform exploit
@@ -83,7 +83,7 @@ function exploit(target) {
    console.log(c.info('HOST:' + stdout))
   }
  })
- console.warn(warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'))
+ console.warn(c.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'))
  exec('db_autopwn -p -t -e', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
@@ -176,6 +176,6 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
  setup()
 } else {
   //botmap [wrong args]
- console.error(c.red('Unknownen Argumen(s)'))
- process.exit(1)
+  console.error(c.red('Unknownen Argument(s)'))
+  process.exit(1)
 }

