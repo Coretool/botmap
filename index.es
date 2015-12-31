@@ -1,3 +1,4 @@
+#! use/bin/env node
 import fs from 'fs'
 import { exec } from 'child_process'
 import c from 'colors/safe'
