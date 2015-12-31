@@ -7,4 +7,5 @@ apt-get install npm
 
 #install botmap
 git clone https://coretool@bitbucket.org/coretool/botmap.git
+cd botmap
 npm install -g
