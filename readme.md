@@ -18,19 +18,11 @@ Displays some info about botmap.
    Displays the help text.
 
 ##Installation##
-Use this script to install Botmap:
+Use this to install Botmap:
 
-    #!/bin/bash
-    set -ex
-    #install deps
-    apt-get update
-    apt-get install node.js
-    apt-get install npm
-
-    #install botmap
-    git clone https://coretool@bitbucket.org/coretool/botmap.git
     cd botmap
-    npm install -g
+    sudo ./instll.sh
+
 ## Note ##
 Only use this with permission of the targets owner ! If you don't have his or her permission you will do something illegal ! I am not responsible for what **you**
 do with botmap.
