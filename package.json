@@ -9,7 +9,7 @@
   "license": "MIT",
   "preferGlobal": true,
   "bin": {
-    "botmap": "executables/index.min.js"
+    "botmap": "executables/index.js"
   },
   "dependencies": {
     "colors": "^1.1.2",
