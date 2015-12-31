@@ -1,4 +1,4 @@
-import bm from './lib.min.js'
+import bm from './lib.js'
 import fs from 'fs'
 import c from 'colors/safe'
 

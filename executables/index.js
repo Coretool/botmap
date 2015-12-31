@@ -1,8 +1,8 @@
 'use strict';
 
-var _libMin = require('./lib.min.js');
+var _lib = require('./lib.js');
 
-var _libMin2 = _interopRequireDefault(_libMin);
+var _lib2 = _interopRequireDefault(_lib);
 
 var _fs = require('fs');
 
@@ -21,8 +21,8 @@ var target = undefined;
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   //botmap target [arget]
   target = userArgs[1];
-  _libMin2.default.userAuth();
-  _libMin2.default.exploit(target);
+  _lib2.default.userAuth();
+  _lib2.default.exploit(target);
 } else if (userArgs[0] == 'info' || userArgs[0] == 'about') {
   //botmap info | botmap about
   console.log(_safe2.default.info('------------------------------------------'));
@@ -40,7 +40,7 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   console.log(_safe2.default.help('------------------------------------------'));
 } else if (userArgs[0] == 'setup') {
   //botmap setup
-  _libMin2.default.setup();
+  _lib2.default.setup();
 } else {
   //botmap [wrong args]
   console.error(_safe2.default.red('Unknownen Argumen(s)'));
