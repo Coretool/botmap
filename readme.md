@@ -19,6 +19,7 @@ Displays some info about botmap.
 
 ##Installation##
 Use this script to install Botmap:
+
     #!/bin/bash
     set -ex
     #install deps
