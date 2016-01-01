@@ -1,4 +1,4 @@
-#! usr/bin/env nodejs
+#! /usr/bin/env nodejs
 'use strict';
 
 var _fs = require('fs');
@@ -182,7 +182,7 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   console.log(_safe2.default.help('------------------------------------------'));
 } else if (userArgs[0] == 'setup') {
   //botmap setup
-  setup();
+  setup()
 } else {
   //botmap [wrong args]
   console.error(_safe2.default.red('Unknownen Argument(s)'));

