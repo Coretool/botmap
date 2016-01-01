@@ -1,4 +1,4 @@
-#!/use/bin/env node
+#!/usr/bin/env node
 'use strict';
 
 var _fs = require('fs');
