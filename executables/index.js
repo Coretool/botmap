@@ -11,7 +11,7 @@ var _safe = require('colors/safe');
 
 var _safe2 = _interopRequireDefault(_safe);
 
-var _prompt = require('prompt');
+var _prompt = require('prompt-sync');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

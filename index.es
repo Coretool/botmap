@@ -2,7 +2,7 @@
 import fs from 'fs'
 import { exec } from 'child_process'
 import c from 'colors/safe'
-import { prompt as p } from 'prompt'
+import { prompt as p } from 'prompt-sync'
 
 //set theme
 c.setTheme({
