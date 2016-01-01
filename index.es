@@ -1,6 +1,6 @@
 #! usr/bin/env nodejs
 import fs from 'fs'
-import { exec } from 'child_process'
+import { execSync } from 'child_process'
 import c from 'colors/safe'
 import { prompt as p } from 'prompt-sync'
 
@@ -36,7 +36,7 @@ function exploit(target) {
  console.log(c.info('Starting ...'))
  console.warn(c.warn('Once again... I hope you now what you are doing...'))
   //start postgresql
- exec('service postgresql start', (err, stdout, stderr) => {
+ execSync('service postgresql start', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not start postgresql! \n' + error))
@@ -46,7 +46,7 @@ function exploit(target) {
    }
   })
   //start msf
- exec('msfconsole', (err, stdout, stderr) => {
+ execSync('msfconsole', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
    console.error(c.error('Could not initialize msfdb! \n' + error))
@@ -55,7 +55,7 @@ function exploit(target) {
    console.log(c.info('started msf'))
   }
  })
- exec('workspace botmap', (err, stdout, stderr) => {
+ execSync('workspace botmap', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
    console.error(c.error('Error\n' + error))
@@ -66,7 +66,7 @@ function exploit(target) {
   }
  })
  console.log(c.info('Starting scan...'))
- exec('db_nmap -sS -sV -sU -n -O ' + target, (err, stdout, stderr) => {
+ execSync('db_nmap -sS -sV -sU -n -O ' + target, (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
    console.error(c.error('Could not scan target \n' + error))
@@ -75,7 +75,7 @@ function exploit(target) {
    console.log(c.info('scan finished'))
   }
  })
- exec('db_hosts', (err, stdout, stderr) => {
+ execSync('db_hosts', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
    console.error(c.error('Could not get host info... \n' + error))
@@ -85,7 +85,7 @@ function exploit(target) {
   }
  })
  console.warn(c.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'))
- exec('db_autopwn -p -t -e', (err, stdout, stderr) => {
+ execSync('db_autopwn -p -t -e', (err, stdout, stderr) => {
   if (err || stderr) {
    let error = err || stderr
    console.error(c.error('Can not pwn the target... \n' + error))
@@ -101,7 +101,7 @@ function exploit(target) {
 
 function setup() {
   console.log(c.info('Botmap is setting up a db workspace...'))
-  exec('service postgresql start', (err, stdout, stderr) => {
+  execSync('service postgresql start', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not start postgresql \n' + error))
@@ -110,7 +110,7 @@ function setup() {
     console.log(c.info('started postgresql'))
    }
   })
-  exec('service metasploit start', (err, stdout, stderr) => {
+  execSync('service metasploit start', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not start msf \n' + error))
@@ -119,7 +119,7 @@ function setup() {
     console.log(c.info('started msf'))
    }
   })
-  exec('workspace -a botmap', (err, stdout, stderr) => {
+  execSync('workspace -a botmap', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not create workspace\n' + error))
@@ -128,7 +128,7 @@ function setup() {
     console.log(c.info('created workspace'))
    }
   })
-  exec('workspace botmap', (err, stdout, stderr) => {
+  execSync('workspace botmap', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not switch to workspace \n' + error))
@@ -137,7 +137,7 @@ function setup() {
     console.log(c.info('switched workspace'))
    }
   })
-  exec('exit', (err, stdout, stderr) => {
+  execSync('exit', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not exit msfdb \n' + error))

