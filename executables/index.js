@@ -34,7 +34,7 @@ function userAuth() {
   console.warn(_safe2.default.warn("Note,that you need the permission of the target's owner !"));
   console.warn(_safe2.default.warn('Are you sure you want to scan and attack: \n' + target));
   console.log(_safe2.default.prompt('Press y to continue'));
-  var input = prompt();
+  var input = p.prompt();
 
   if (input != 'y') {
     console.log(info('Maybe a wise decision..'));
