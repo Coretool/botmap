@@ -21,7 +21,8 @@ Displays some info about botmap.
 Use this to install Botmap:
 
     cd botmap
-    sudo ./instll.sh
+    chmod +x install.sh
+    sudo ./install.sh
 
 ## Note ##
 Only use this with permission of the targets owner ! If you don't have his or her permission you will do something illegal ! I am not responsible for what **you**
