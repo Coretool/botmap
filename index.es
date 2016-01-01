@@ -1,4 +1,4 @@
-#! usr/bin/env node
+#! usr/bin/env nodejs
 import fs from 'fs'
 import { exec } from 'child_process'
 import c from 'colors/safe'
