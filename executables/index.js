@@ -13,6 +13,8 @@ var _safe2 = _interopRequireDefault(_safe);
 
 var _promptSync = require('prompt-sync');
 
+var _promptSync2 = _interopRequireDefault(_promptSync);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //set theme
@@ -34,7 +36,7 @@ function userAuth() {
   console.warn(_safe2.default.warn("Note,that you need the permission of the target's owner !"));
   console.warn(_safe2.default.warn('Are you sure you want to scan and attack: \n' + target));
   console.log(_safe2.default.prompt('Press y to continue'));
-  var input = (0, _promptSync.prompt)();
+  var input = _promptSync2.default.prompt();
 
   if (input != 'y') {
     console.log(info('Maybe a wise decision..'));

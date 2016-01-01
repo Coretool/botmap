@@ -2,7 +2,7 @@
 import fs from 'fs'
 import { execSync } from 'child_process'
 import c from 'colors/safe'
-import { prompt as p } from 'prompt-sync'
+import  prompt  from 'prompt-sync'
 
 //set theme
 c.setTheme({
@@ -23,7 +23,7 @@ function userAuth() {
  console.warn(c.warn("Note,that you need the permission of the target's owner !"))
  console.warn(c.warn('Are you sure you want to scan and attack: \n' + target))
  console.log(c.prompt('Press y to continue'))
-let input = p()
+let input = prompt.prompt()
 
 if (input != 'y') {
   console.log(info('Maybe a wise decision..'))
