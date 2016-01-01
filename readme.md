@@ -1,7 +1,11 @@
-## Botmap##
+## Botmap ##
 Botmap is a *nmap* and *metasploit* bot.
 
-## Introduction##
+## BIG UPDATE ##
+
+A bit update is currently in development! The commands mentioned below won't work at the moment...
+
+## Introduction ##
 
     botmap target [target ip]
    This is the command to start botmap. Once started, botmap will launch a complete scan of the target (save it to the db ) and try the available exploits in the metasploit db.
@@ -17,14 +21,14 @@ Displays some info about botmap.
     botmap -h
    Displays the help text.
 
-##Installation##
+## Installation ##
 You need node.js version 0.12 or higher (I recommend 5.0)
 Open a console window and type:
 
   git clone http://github.com/coretool/botmap.git
   cd botmap
   sudo npm install -g
-  sudo ln -s /usr/bin/nodejs /usr/bin/node 
+  sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 ## Note ##
 Only use this with permission of the targets owner ! If you don't have his or her permission you will do something illegal ! I am not responsible for what **you**
