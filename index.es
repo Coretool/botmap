@@ -54,6 +54,7 @@ function onConnect (err, token) {
 }
 //create console fx
 function startConsole() {
+  console.log(c.info('Opening a console... '))
   let id = ''
   const args =['console.create']
   id = client.exec(args, (err, r) => {
@@ -65,6 +66,7 @@ function startConsole() {
       client.exec(['console.read'], (err, r) => {
         if(err) throw new Error(err)
         console.log(c.info('Done !'))
+        console.log(c.info('Returning to usermenu...'))
 
       })
     }
@@ -99,7 +101,7 @@ function stopServer() {
 //add workspace fx
 function workspace(console_id) {
   console.log(c.info('Adding workspace...'))
-  const args = ['console.write',console_id,'workspace','-a','botmap\n'] //format console.write,id,[command,arguments +\n]
+  const args = ['console.write',console_id,'workspace -a botmap\n'] //format console.write,id,[command,arguments +\n]
   client.exec(args, (err, r) => {
     if(err) {
       console.error(c.error('Could not add workspace \n' + err))
@@ -113,7 +115,7 @@ function workspace(console_id) {
 //switch workspace fx
 function switchWorkspace(console_id) {
   console.log(c.info('Switching workspace...'))
-  client.exec(['console.write',console_id,'workspace','botmap\n'], (err, r) => {
+  client.exec(['console.write',console_id,'workspace botmap\n'], (err, r) => {
     if(err) {
       console.error(c.error('Could not switch workspace \ n' + err))
     } else {
@@ -125,7 +127,7 @@ function switchWorkspace(console_id) {
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
 function scan(target, console_id) {
-  let args = ['console.write', console_id,'db_nmap','-sS','-sV','-sU','-n','-0',target +'\n']
+  let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -0',target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
       console.error(c.error('Could not scan target [' + target + ']' + err))
@@ -144,21 +146,20 @@ function scan(target, console_id) {
     }
   })
 }
+/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 function userInteraction() {
   const id = startConsole()
-
-  /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
   const userArgs = process.argv.slice(2)
+
+  let client = new mc({
+    login: 'bot',
+    password: 'botpass',
+  })
 
   if (userArgs[0] == 'target' || userArgs[0] == '-t') {
     startConsole()
     switchWorkspace(id)
     scan(userArgs[1], id)
-
-    let client = new mc({
-      login: 'bot',
-      password: 'botpass',
-    })
 
   } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
     console.log(c.info('----------------------------------------------'))

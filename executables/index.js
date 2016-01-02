@@ -69,6 +69,7 @@ function onConnect(err, token) {
 }
 //create console fx
 function startConsole() {
+  console.log(_safe2.default.info('Opening a console... '));
   var id = '';
   var args = ['console.create'];
   id = client.exec(args, function (err, r) {
@@ -80,6 +81,7 @@ function startConsole() {
       client.exec(['console.read'], function (err, r) {
         if (err) throw new Error(err);
         console.log(_safe2.default.info('Done !'));
+        console.log(_safe2.default.info('Returning to usermenu...'));
       });
     }
   });
@@ -113,7 +115,7 @@ function stopServer() {
 //add workspace fx
 function workspace(console_id) {
   console.log(_safe2.default.info('Adding workspace...'));
-  var args = ['console.write', console_id, 'workspace', '-a', 'botmap\n']; //format console.write,id,[command,arguments +\n]
+  var args = ['console.write', console_id, 'workspace -a botmap\n']; //format console.write,id,[command,arguments +\n]
   client.exec(args, function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not add workspace \n' + err));
@@ -127,7 +129,7 @@ function workspace(console_id) {
 //switch workspace fx
 function switchWorkspace(console_id) {
   console.log(_safe2.default.info('Switching workspace...'));
-  client.exec(['console.write', console_id, 'workspace', 'botmap\n'], function (err, r) {
+  client.exec(['console.write', console_id, 'workspace botmap\n'], function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not switch workspace \ n' + err));
     } else {
@@ -139,7 +141,7 @@ function switchWorkspace(console_id) {
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
 function scan(target, console_id) {
-  var args = ['console.write', console_id, 'db_nmap', '-sS', '-sV', '-sU', '-n', '-0', target + '\n'];
+  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -0', target + '\n'];
   client.exec(args, function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not scan target [' + target + ']' + err));
@@ -158,21 +160,20 @@ function scan(target, console_id) {
     }
   });
 }
+/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 function userInteraction() {
   var id = startConsole();
-
-  /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
   var userArgs = process.argv.slice(2);
+
+  var client = new _msfnode2.default({
+    login: 'bot',
+    password: 'botpass'
+  });
 
   if (userArgs[0] == 'target' || userArgs[0] == '-t') {
     startConsole();
     switchWorkspace(id);
     scan(userArgs[1], id);
-
-    var _client = new _msfnode2.default({
-      login: 'bot',
-      password: 'botpass'
-    });
   } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
     console.log(_safe2.default.info('----------------------------------------------'));
     console.log(_safe2.default.info('Botmap, a pentest bot ! '));
