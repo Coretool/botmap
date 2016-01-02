@@ -142,3 +142,22 @@ function scan(target) {
     }
   });
 }
+
+/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
+var userArgs = process.argv.slice(2);
+
+if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+  scan(userArgs[1]);
+} else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
+  console.log(_safe2.default.info('----------------------------------------------'));
+  console.log(_safe2.default.info('Botmap, a pentest bot ! '));
+  console.log(_safe2.default.info('Author: Coretool'));
+  console.log(_safe2.default.info('License: MIT '));
+  console.log(_safe2.default.info('Note that I am not responsible for \n what you do with botmap'));
+  console.log(_safe2.default.info('Visit github.com/coretool/botmap for more !'));
+  console.log(_safe2.default.info('----------------------------------------------'));
+} else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
+  console.log('Help screen goes here'); //to do add help
+} else {
+    console.log(_safe2.default.help('botmap version: ' + version + 'use "botmap -h"'));
+  }

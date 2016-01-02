@@ -129,3 +129,22 @@ function scan(target) {
     }
   })
 }
+
+/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
+const userArgs = process.argv.slice(2)
+
+if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+  scan(userArgs[1])
+} else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
+  console.log(c.info('----------------------------------------------'))
+  console.log(c.info('Botmap, a pentest bot ! '))
+  console.log(c.info('Author: Coretool'))
+  console.log(c.info('License: MIT '))
+  console.log(c.info('Note that I am not responsible for \n what you do with botmap'))
+  console.log(c.info('Visit github.com/coretool/botmap for more !'))
+  console.log(c.info('----------------------------------------------'))
+} else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
+  console.log('Help screen goes here') //to do add help
+} else {
+  console.log(c.help('botmap version: ' + version + 'use "botmap -h"'))
+}
