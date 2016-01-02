@@ -21,6 +21,8 @@ var _promptSync2 = _interopRequireDefault(_promptSync);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var version = 'ALPHA 0.2.0';
+
 //set theme
 _safe2.default.setTheme({
   silly: 'rainbow',
