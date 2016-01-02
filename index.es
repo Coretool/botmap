@@ -1,9 +1,11 @@
 #! /usr/bin/env node
-import mc from 'metasploitJSClient'
+import mc from 'msfnode'
 import Task from 'shell-task'
 import {execSync} from 'child_process'
 import c from 'colors/safe'
 import prompt from 'prompt-sync'
+
+const version =  'ALPHA 0.2.0'
 
 //set theme
 c.setTheme({

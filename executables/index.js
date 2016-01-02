@@ -1,9 +1,9 @@
 #! /usr/bin/env node
 'use strict';
 
-var _metasploitJSClient = require('metasploitJSClient');
+var _msfnode = require('msfnode');
 
-var _metasploitJSClient2 = _interopRequireDefault(_metasploitJSClient);
+var _msfnode2 = _interopRequireDefault(_msfnode);
 
 var _shellTask = require('shell-task');
 
@@ -48,7 +48,7 @@ function userAuth() {
   }
 }
 
-var client = new _metasploitJSClient2.default({
+var client = new _msfnode2.default({
   login: 'bot',
   password: 'botpass'
 });
