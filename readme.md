@@ -22,7 +22,7 @@ Displays some info about botmap.
    Displays the help text.
 
 ## Installation ##
-You need node.js version 0.12 or higher (I recommend 5.0)
+You need node.js version 0.12 or higher. See the wiki for more information.
 Open a console window and type:
 
   git clone http://github.com/coretool/botmap.git

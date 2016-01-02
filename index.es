@@ -5,12 +5,7 @@ import {execSync} from 'child_process'
 import c from 'colors/safe'
 import prompt from 'prompt-sync'
 
-startServer()
 
-let client = new mc({
-  login: 'bot',
-  password: 'botpass',
-})
 
 const version =  'ALPHA 0.2.0'
 
@@ -72,7 +67,7 @@ function startConsole() {
   })
 }
 
-/* SERVER FUNCTIONS */
+/* SERVER FUNCTIONS
 function startServer() {
   console.log(c.info('Starting server ! '))
   execSync('msfrpcd -U bot -P botpass -f ', (err, stdout, stderr) => {
@@ -94,7 +89,7 @@ function stopServer() {
     }
   })
 }
-
+*/
 /* ---- END SERVER FUNCTIONS | SETUP FUNCTIONS ---- */
 //add workspace fx
 function workspace(console_id) {
@@ -144,6 +139,11 @@ function scan(target) {
     }
   })
 }
+
+let client = new mc({
+  login: 'bot',
+  password: 'botpass',
+})
 
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 const userArgs = process.argv.slice(2)

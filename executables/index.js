@@ -21,13 +21,6 @@ var _promptSync2 = _interopRequireDefault(_promptSync);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-startServer();
-
-var client = new _msfnode2.default({
-  login: 'bot',
-  password: 'botpass'
-});
-
 var version = 'ALPHA 0.2.0';
 
 //set theme
@@ -86,29 +79,29 @@ function startConsole() {
   });
 }
 
-/* SERVER FUNCTIONS */
+/* SERVER FUNCTIONS
 function startServer() {
-  console.log(_safe2.default.info('Starting server ! '));
-  (0, _child_process.execSync)('msfrpcd -U bot -P botpass -f ', function (err, stdout, stderr) {
-    if (err || stderr) {
-      var error = err || stderr;
-      console.error(_safe2.default.error('Could not start server \n' + error));
-    } else {
-      console.log(_safe2.default.info('started server'));
-    }
-  });
+  console.log(c.info('Starting server ! '))
+  execSync('msfrpcd -U bot -P botpass -f ', (err, stdout, stderr) => {
+    if(err || stderr) {
+    const error = err || stderr
+    console.error(c.error('Could not start server \n' + error ))
+   } else {
+     console.log(c.info('started server'))
+   }
+  })
 }
 
 function stopServer() {
-  client.exec('core.stop', function (err, r) {
-    if (err) {
-      console.error(_safe2.default.error('Could not stop server ! \n ' + err));
+  client.exec('core.stop', (err, r) => {
+    if(err) {
+      console.error(c.error('Could not stop server ! \n ' + err))
     } else {
-      console.log(_safe2.default.info('server halted'));
+      console.log(c.info('server halted'))
     }
-  });
+  })
 }
-
+*/
 /* ---- END SERVER FUNCTIONS | SETUP FUNCTIONS ---- */
 //add workspace fx
 function workspace(console_id) {
@@ -158,6 +151,11 @@ function scan(target) {
     }
   });
 }
+
+var client = new _msfnode2.default({
+  login: 'bot',
+  password: 'botpass'
+});
 
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 var userArgs = process.argv.slice(2);
