@@ -1,4 +1,4 @@
-
+#! /usr/bin/env node
 import mc from 'metasploitJSClient'
 import Task from 'shell-task'
 import {execSync} from 'child_process'
