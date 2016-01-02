@@ -74,7 +74,7 @@ function startConsole() {
 
 /* SERVER FUNCTIONS */
 function startServer() {
-  execSync('ruby msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', (err, stdout, stderr) => {
+  execSync('msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', (err, stdout, stderr) => {
     if(err || stderr) {
     const error = err || stderr
     console.error(c.error('Could not start server \n' + error ))
