@@ -88,7 +88,8 @@ function startConsole() {
 
 /* SERVER FUNCTIONS */
 function startServer() {
-  (0, _child_process.execSync)('msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', function (err, stdout, stderr) {
+  console.log(_safe2.default.info('Starting server ! '));
+  (0, _child_process.execSync)('msfrpcd -U bot -P botpass -f ', function (err, stdout, stderr) {
     if (err || stderr) {
       var error = err || stderr;
       console.error(_safe2.default.error('Could not start server \n' + error));
