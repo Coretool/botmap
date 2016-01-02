@@ -50,11 +50,6 @@ function userAuth() {
   }
 }
 
-var client = new _msfnode2.default({
-  login: 'bot',
-  password: 'botpass'
-});
-
 client.on('connected', onConnect);
 
 //do this on connect
@@ -84,7 +79,7 @@ function startConsole() {
   });
 }
 
-//start server fx, always called first
+/* SERVER FUNCTIONS */
 function startServer() {
   (0, _child_process.execSync)('./msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', function (err, stdout, stderr) {
     if (err || stderr) {
@@ -96,7 +91,17 @@ function startServer() {
   });
 }
 
-/* ---- SETUP FUNCTIONS ---- */
+function stopServer() {
+  client.exec('core.stop', function (err, r) {
+    if (err) {
+      console.error(_safe2.default.error('Could not stop server ! \n ' + err));
+    } else {
+      console.log(_safe2.default.info('server halted'));
+    }
+  });
+}
+
+/* ---- END SERVER FUNCTIONS | SETUP FUNCTIONS ---- */
 //add workspace fx
 function workspace(console_id) {
   console.log(_safe2.default.info('Adding workspace...'));
@@ -151,6 +156,11 @@ var userArgs = process.argv.slice(2);
 
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   scan(userArgs[1]);
+
+  var _client = new _msfnode2.default({
+    login: 'bot',
+    password: 'botpass'
+  });
 } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
   console.log(_safe2.default.info('----------------------------------------------'));
   console.log(_safe2.default.info('Botmap, a pentest bot ! '));
@@ -161,6 +171,23 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   console.log(_safe2.default.info('----------------------------------------------'));
 } else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
   console.log('Help screen goes here'); //to do add help
-} else {
+} else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
+    console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
+    (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
+    console.log(_safe2.default.info('Starting server...'));
+    startServer();
+    console.log(_safe2.default.info('Adding workspace...'));
+    workspace();
+    stopServer();
+    console.log(_safe2.default.info('Done ! '));
+  } else if (userArgs[0] == 'start') {
+    console.log(_safe2.default.info('starting server'));
+    startServer();
+    console.log(_safe2.default.info('Do not forget to stop the server when you are done ! :-) '));
+  } else if (userArgs[0] == 'stop') {
+    console.log(_safe2.default.info('stopping server'));
+    stopServer();
+    console.log(_safe2.default.info('Done !'));
+  } else {
     console.log(_safe2.default.help('botmap version: ' + version + 'use "botmap -h"'));
   }

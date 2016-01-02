@@ -34,11 +34,6 @@ if (input != 'y') {
   }
 }
 
-let client = new mc({
-  login: 'bot',
-  password: 'botpass',
-})
-
 client.on('connected', onConnect)
 
 //do this on connect
@@ -70,7 +65,7 @@ function startConsole() {
   })
 }
 
-//start server fx, always called first
+/* SERVER FUNCTIONS */
 function startServer() {
   execSync('./msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', (err, stdout, stderr) => {
     if(err || stderr) {
@@ -82,7 +77,17 @@ function startServer() {
   })
 }
 
-/* ---- SETUP FUNCTIONS ---- */
+function stopServer() {
+  client.exec('core.stop', (err, r) => {
+    if(err) {
+      console.error(c.error('Could not stop server ! \n ' + err))
+    } else {
+      console.log(c.info('server halted'))
+    }
+  })
+}
+
+/* ---- END SERVER FUNCTIONS | SETUP FUNCTIONS ---- */
 //add workspace fx
 function workspace(console_id) {
   console.log(c.info('Adding workspace...'))
@@ -137,6 +142,12 @@ const userArgs = process.argv.slice(2)
 
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   scan(userArgs[1])
+
+  let client = new mc({
+    login: 'bot',
+    password: 'botpass',
+  })
+
 } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
   console.log(c.info('----------------------------------------------'))
   console.log(c.info('Botmap, a pentest bot ! '))
@@ -145,8 +156,30 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   console.log(c.info('Note that I am not responsible for \n what you do with botmap'))
   console.log(c.info('Visit github.com/coretool/botmap for more !'))
   console.log(c.info('----------------------------------------------'))
+
 } else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
   console.log('Help screen goes here') //to do add help
+
+} else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
+  console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
+  execSync('clear') //just to get rid of the ugly text
+  console.log(c.info('Starting server...'))
+  startServer()
+  console.log(c.info('Adding workspace...'))
+  workspace()
+  stopServer()
+  console.log(c.info('Done ! '))
+
+} else if (userArgs[0] == 'start') {
+  console.log(c.info('starting server'))
+  startServer()
+  console.log(c.info('Do not forget to stop the server when you are done ! :-) '))
+
+} else if (userArgs[0] == 'stop') {
+  console.log(c.info('stopping server'))
+  stopServer()
+  console.log(c.info('Done !'))
+
 } else {
   console.log(c.help('botmap version: ' + version + 'use "botmap -h"'))
 }
