@@ -176,6 +176,10 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
     (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
     console.log(_safe2.default.info('Starting server...'));
     startServer();
+    var _client2 = new _msfnode2.default({
+      login: 'bot',
+      password: 'botpass'
+    });
     console.log(_safe2.default.info('Adding workspace...'));
     workspace();
     stopServer();

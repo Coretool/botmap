@@ -165,6 +165,10 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   execSync('clear') //just to get rid of the ugly text
   console.log(c.info('Starting server...'))
   startServer()
+  let client = new mc({
+    login: 'bot',
+    password: 'botpass',
+  })
   console.log(c.info('Adding workspace...'))
   workspace()
   stopServer()
