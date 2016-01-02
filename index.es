@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+
 import mc from 'metasploitJSClient'
 import Task from 'shell-task'
 import {execSync} from 'child_process'
@@ -32,7 +32,7 @@ if (input != 'y') {
   }
 }
 
-const client = new mc({
+let client = new mc({
   login: 'bot',
   password: 'botpass',
 })
@@ -51,23 +51,25 @@ function onConnect (err, token) {
 }
 //create console fx
 function startConsole() {
-  const id
+  let id = ''
   const args =['console.create']
   id = client.exec(args, (err, r) => {
     if(err) {
       console.error(c.error('Could not open a new console \n' + err))
     } else {
-      console.log(c.info('Console opened, cleaning it... \n')
+      console.log(c.info('Console opened, cleaning it... \n'))
+
       client.exec(['console.read'], (err, r) => {
         if(err) throw new Error(err)
         console.log(c.info('Done !'))
+
       })
-    )}
- })
+    }
+  })
 }
 
 //start server fx, always called first
-function startServer( {
+function startServer() {
   execSync('./msfrpcd -U bot -P botpass -f -a botserver.bot -p :55553', (err, stdout, stderr) => {
     if(err || stderr) {
     const error = err || stderr
@@ -76,7 +78,7 @@ function startServer( {
      console.log(c.info('started server'))
    }
   })
-})
+}
 
 /* ---- SETUP FUNCTIONS ---- */
 //add workspace fx
@@ -94,22 +96,36 @@ function workspace(console_id) {
 }
 
 //switch workspace fx
-function switchWorkspace(console_id) {}
+function switchWorkspace(console_id) {
+  console.log(c.info('Switching workspace...'))
+  client.exec(['console.write',console_id,'workspace','botmap\n'], (err, r) => {
+    if(err) {
+      console.error(c.error('Could not switch workspace \ n' + err))
+    } else {
+      console.log(c.info('workspace switched'))
+    }
+  })
+}
 
-function exploit(target) {
+/* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
+
+function scan(target) {
   let args = ['console.write', console_id,'db_nmap','-sS','-sV','-sU','-n','-0',target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
-      console.error(c.error('Could not scan target [' + target ']' + err))
+      console.error(c.error('Could not scan target [' + target + ']' + err))
       process.exit(1)
     } else {
       console.log(c.info('performed scan'))
+      let args = ['console.read', console_id]
+      client.exec(args, (err, res) => {
+        if(err) {
+          console.error(c.error('Could not read data ! \n' + err))
+          process.exit(1)
+        } else {
+          console.log(res)
+        }
+      })
     }
   })
-  //aut user once again
-  userAuth()
-
-  //exploit
-  args = ['console.write', console_id ,'db_autopawn']
-
 }
