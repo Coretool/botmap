@@ -5,6 +5,13 @@ import {execSync} from 'child_process'
 import c from 'colors/safe'
 import prompt from 'prompt-sync'
 
+startServer()
+
+let client = new mc({
+  login: 'bot',
+  password: 'botpass',
+})
+
 const version =  'ALPHA 0.2.0'
 
 //set theme
@@ -164,25 +171,10 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
   console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
   execSync('clear') //just to get rid of the ugly text
   console.log(c.info('Starting server...'))
-  startServer()
-  let client = new mc({
-    login: 'bot',
-    password: 'botpass',
-  })
   console.log(c.info('Adding workspace...'))
   workspace()
   stopServer()
   console.log(c.info('Done ! '))
-
-} else if (userArgs[0] == 'start') {
-  console.log(c.info('starting server'))
-  startServer()
-  console.log(c.info('Do not forget to stop the server when you are done ! :-) '))
-
-} else if (userArgs[0] == 'stop') {
-  console.log(c.info('stopping server'))
-  stopServer()
-  console.log(c.info('Done !'))
 
 } else {
   console.log(c.help('botmap version: ' + version + 'use "botmap -h"'))
