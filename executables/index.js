@@ -180,10 +180,8 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
     console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
     (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
-    console.log(_safe2.default.info('Adding workspace...'));
     workspace();
-    stopServer();
     console.log(_safe2.default.info('Done ! '));
   } else {
-    console.log(_safe2.default.help('botmap version: ' + version + 'use "botmap -h"'));
+    console.log(_safe2.default.help('botmap version: ' + version + ' use "botmap -h"'));
   }

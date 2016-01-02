@@ -143,8 +143,6 @@ function scan(target) {
   })
 }
 
-
-
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 const userArgs = process.argv.slice(2)
 
@@ -171,11 +169,9 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
   console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
   execSync('clear') //just to get rid of the ugly text
-  console.log(c.info('Adding workspace...'))
   workspace()
-  stopServer()
   console.log(c.info('Done ! '))
 
 } else {
-  console.log(c.help('botmap version: ' + version + 'use "botmap -h"'))
+  console.log(c.help('botmap version: ' + version + ' use "botmap -h"'))
 }
