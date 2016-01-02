@@ -82,6 +82,7 @@ function startConsole() {
       });
     }
   });
+  return id;
 }
 
 /* SERVER FUNCTIONS
@@ -157,11 +158,14 @@ function scan(target) {
   });
 }
 
+var id = startConsole();
+
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 var userArgs = process.argv.slice(2);
 
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
-  scan(userArgs[1]);
+  switchWorkspace(id);
+  scan(userArgs[1], id);
 
   var _client = new _msfnode2.default({
     login: 'bot',
@@ -180,7 +184,7 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
     console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
     (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
-    workspace();
+    workspace(id);
     console.log(_safe2.default.info('Done ! '));
   } else {
     console.log(_safe2.default.help('botmap version: ' + version + ' use "botmap -h"'));

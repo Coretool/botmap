@@ -68,6 +68,7 @@ function startConsole() {
       })
     }
   })
+  return id
 }
 
 /* SERVER FUNCTIONS
@@ -143,11 +144,14 @@ function scan(target) {
   })
 }
 
+const id = startConsole()
+
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 const userArgs = process.argv.slice(2)
 
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
-  scan(userArgs[1])
+  switchWorkspace(id)
+  scan(userArgs[1], id)
 
   let client = new mc({
     login: 'bot',
@@ -169,7 +173,7 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
   console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
   execSync('clear') //just to get rid of the ugly text
-  workspace()
+  workspace(id)
   console.log(c.info('Done ! '))
 
 } else {
