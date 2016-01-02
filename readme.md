@@ -10,6 +10,8 @@ Botmap is a *nmap* and *metasploit* bot.
 
 Botmap is a bot to automate pentests. It is still in a very early stage (ALPHA) and any kind of help is welcome !
 
+This are the basic commands:
+
     botmap target [target ip]
    This is the command to start botmap. Once started, botmap will launch a complete scan of the target (save it to the db ) and try the available exploits in the metasploit db.
 
