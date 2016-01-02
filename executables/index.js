@@ -79,7 +79,10 @@ function startConsole() {
       console.log(_safe2.default.info('Console opened, cleaning it... \n'));
 
       client.exec(['console.read'], function (err, r) {
-        if (err) throw new Error(err);
+        if (err) {
+          console.error(_safe2.default.error('Could not open a new Console...' + err));
+          process.exit;
+        }
         console.log(_safe2.default.info('Done !'));
         console.log(_safe2.default.info('Returning to usermenu...'));
       });
@@ -141,7 +144,7 @@ function switchWorkspace(console_id) {
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
 function scan(target, console_id) {
-  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -0', target + '\n'];
+  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -0' + target + '\n'];
   client.exec(args, function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not scan target [' + target + ']' + err));
@@ -162,15 +165,14 @@ function scan(target, console_id) {
 }
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 function userInteraction() {
-  var id = startConsole();
   var userArgs = process.argv.slice(2);
 
   var client = new _msfnode2.default({
     login: 'bot',
     password: 'botpass'
   });
-
   if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+    var id = startConsole();
     startConsole();
     switchWorkspace(id);
     scan(userArgs[1], id);
@@ -186,10 +188,11 @@ function userInteraction() {
     console.log('Help screen goes here'); //to do add help
   } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
       console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
+      var id = startConsole();
       (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
       workspace(id);
       console.log(_safe2.default.info('Done ! '));
     } else {
-      console.log(_safe2.default.help('botmap version: ' + version + ' use "botmap -h"'));
+      console.log(_safe2.default.help('Botmap version: ' + version + ' use "botmap -h" for the help menu'));
     }
 }

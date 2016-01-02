@@ -64,7 +64,10 @@ function startConsole() {
       console.log(c.info('Console opened, cleaning it... \n'))
 
       client.exec(['console.read'], (err, r) => {
-        if(err) throw new Error(err)
+        if(err) {
+          console.error(c.error('Could not open a new Console...' + err))
+          process.exit
+        }
         console.log(c.info('Done !'))
         console.log(c.info('Returning to usermenu...'))
 
@@ -127,7 +130,7 @@ function switchWorkspace(console_id) {
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
 function scan(target, console_id) {
-  let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -0',target +'\n']
+  let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -0' + target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
       console.error(c.error('Could not scan target [' + target + ']' + err))
@@ -148,15 +151,14 @@ function scan(target, console_id) {
 }
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 function userInteraction() {
-  const id = startConsole()
   const userArgs = process.argv.slice(2)
 
   let client = new mc({
     login: 'bot',
     password: 'botpass',
   })
-
   if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+    let id = startConsole()
     startConsole()
     switchWorkspace(id)
     scan(userArgs[1], id)
@@ -175,11 +177,12 @@ function userInteraction() {
 
   } else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
     console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
+    let id = startConsole()
     execSync('clear') //just to get rid of the ugly text
     workspace(id)
     console.log(c.info('Done ! '))
 
   } else {
-    console.log(c.help('botmap version: ' + version + ' use "botmap -h"'))
+    console.log(c.help('Botmap version: ' + version + ' use "botmap -h" for the help menu'))
   }
 }
