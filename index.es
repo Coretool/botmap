@@ -150,6 +150,7 @@ const id = startConsole()
 const userArgs = process.argv.slice(2)
 
 if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+  startConsole()
   switchWorkspace(id)
   scan(userArgs[1], id)
 
