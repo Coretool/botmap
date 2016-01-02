@@ -3,8 +3,11 @@ Botmap is a *nmap* and *metasploit* bot.
 
 ## Changelog ##
 
-0.2.0 Big update: new architecture (metasploit calls now RPC based), restructured code (no exploit functions at the moment)
-0.1.0 First version, nothing special here
+0.2.0  :
+Big update: new architecture (metasploit calls now RPC based), restructured code (no exploit functions at the moment)
+
+0.1.0 :
+ First version, nothing special here
 
 ## Introduction ##
 
