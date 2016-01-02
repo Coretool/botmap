@@ -47,8 +47,8 @@ function onConnect (err, token) {
     console.error(c.error('Could not connect \n' + err))
     process.exit(1)
   } else {
-    console.log(c.info('connected'))
     userInteraction()
+    console.log(c.info('connected'))
   }
 
 }
@@ -130,7 +130,7 @@ function switchWorkspace(console_id) {
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
 function scan(target, console_id) {
-  let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -0' + target +'\n']
+  let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -O' + target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
       console.error(c.error('Could not scan target [' + target + ']' + err))
