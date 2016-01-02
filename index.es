@@ -48,6 +48,7 @@ function onConnect (err, token) {
     process.exit(1)
   } else {
     console.log(c.info('connected'))
+    userInteraction()
   }
 
 }
@@ -123,7 +124,7 @@ function switchWorkspace(console_id) {
 
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
-function scan(target) {
+function scan(target, console_id) {
   let args = ['console.write', console_id,'db_nmap','-sS','-sV','-sU','-n','-0',target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
@@ -143,40 +144,41 @@ function scan(target) {
     }
   })
 }
+function userInteraction() {
+  const id = startConsole()
 
-const id = startConsole()
+  /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
+  const userArgs = process.argv.slice(2)
 
-/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
-const userArgs = process.argv.slice(2)
+  if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+    startConsole()
+    switchWorkspace(id)
+    scan(userArgs[1], id)
 
-if (userArgs[0] == 'target' || userArgs[0] == '-t') {
-  startConsole()
-  switchWorkspace(id)
-  scan(userArgs[1], id)
+    let client = new mc({
+      login: 'bot',
+      password: 'botpass',
+    })
 
-  let client = new mc({
-    login: 'bot',
-    password: 'botpass',
-  })
+  } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
+    console.log(c.info('----------------------------------------------'))
+    console.log(c.info('Botmap, a pentest bot ! '))
+    console.log(c.info('Author: Coretool'))
+    console.log(c.info('License: MIT '))
+    console.log(c.info('Note that I am not responsible for \n what you do with botmap'))
+    console.log(c.info('Visit github.com/coretool/botmap for more !'))
+    console.log(c.info('----------------------------------------------'))
 
-} else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
-  console.log(c.info('----------------------------------------------'))
-  console.log(c.info('Botmap, a pentest bot ! '))
-  console.log(c.info('Author: Coretool'))
-  console.log(c.info('License: MIT '))
-  console.log(c.info('Note that I am not responsible for \n what you do with botmap'))
-  console.log(c.info('Visit github.com/coretool/botmap for more !'))
-  console.log(c.info('----------------------------------------------'))
+  } else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
+    console.log('Help screen goes here') //to do add help
 
-} else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
-  console.log('Help screen goes here') //to do add help
+  } else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
+    console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
+    execSync('clear') //just to get rid of the ugly text
+    workspace(id)
+    console.log(c.info('Done ! '))
 
-} else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
-  console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
-  execSync('clear') //just to get rid of the ugly text
-  workspace(id)
-  console.log(c.info('Done ! '))
-
-} else {
-  console.log(c.help('botmap version: ' + version + ' use "botmap -h"'))
+  } else {
+    console.log(c.help('botmap version: ' + version + ' use "botmap -h"'))
+  }
 }

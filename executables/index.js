@@ -64,6 +64,7 @@ function onConnect(err, token) {
     process.exit(1);
   } else {
     console.log(_safe2.default.info('connected'));
+    userInteraction();
   }
 }
 //create console fx
@@ -137,7 +138,7 @@ function switchWorkspace(console_id) {
 
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
-function scan(target) {
+function scan(target, console_id) {
   var args = ['console.write', console_id, 'db_nmap', '-sS', '-sV', '-sU', '-n', '-0', target + '\n'];
   client.exec(args, function (err, r) {
     if (err) {
@@ -157,36 +158,37 @@ function scan(target) {
     }
   });
 }
+function userInteraction() {
+  var id = startConsole();
 
-var id = startConsole();
+  /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
+  var userArgs = process.argv.slice(2);
 
-/* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
-var userArgs = process.argv.slice(2);
+  if (userArgs[0] == 'target' || userArgs[0] == '-t') {
+    startConsole();
+    switchWorkspace(id);
+    scan(userArgs[1], id);
 
-if (userArgs[0] == 'target' || userArgs[0] == '-t') {
-  startConsole();
-  switchWorkspace(id);
-  scan(userArgs[1], id);
-
-  var _client = new _msfnode2.default({
-    login: 'bot',
-    password: 'botpass'
-  });
-} else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
-  console.log(_safe2.default.info('----------------------------------------------'));
-  console.log(_safe2.default.info('Botmap, a pentest bot ! '));
-  console.log(_safe2.default.info('Author: Coretool'));
-  console.log(_safe2.default.info('License: MIT '));
-  console.log(_safe2.default.info('Note that I am not responsible for \n what you do with botmap'));
-  console.log(_safe2.default.info('Visit github.com/coretool/botmap for more !'));
-  console.log(_safe2.default.info('----------------------------------------------'));
-} else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
-  console.log('Help screen goes here'); //to do add help
-} else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
-    console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
-    (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
-    workspace(id);
-    console.log(_safe2.default.info('Done ! '));
-  } else {
-    console.log(_safe2.default.help('botmap version: ' + version + ' use "botmap -h"'));
-  }
+    var _client = new _msfnode2.default({
+      login: 'bot',
+      password: 'botpass'
+    });
+  } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
+    console.log(_safe2.default.info('----------------------------------------------'));
+    console.log(_safe2.default.info('Botmap, a pentest bot ! '));
+    console.log(_safe2.default.info('Author: Coretool'));
+    console.log(_safe2.default.info('License: MIT '));
+    console.log(_safe2.default.info('Note that I am not responsible for \n what you do with botmap'));
+    console.log(_safe2.default.info('Visit github.com/coretool/botmap for more !'));
+    console.log(_safe2.default.info('----------------------------------------------'));
+  } else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
+    console.log('Help screen goes here'); //to do add help
+  } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
+      console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
+      (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
+      workspace(id);
+      console.log(_safe2.default.info('Done ! '));
+    } else {
+      console.log(_safe2.default.help('botmap version: ' + version + ' use "botmap -h"'));
+    }
+}
