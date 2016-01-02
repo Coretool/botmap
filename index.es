@@ -5,7 +5,10 @@ import {execSync} from 'child_process'
 import c from 'colors/safe'
 import prompt from 'prompt-sync'
 
-
+let client = new mc({
+  login: 'bot',
+  password: 'botpass',
+})
 
 const version =  'ALPHA 0.2.0'
 
@@ -140,10 +143,7 @@ function scan(target) {
   })
 }
 
-let client = new mc({
-  login: 'bot',
-  password: 'botpass',
-})
+
 
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 const userArgs = process.argv.slice(2)
@@ -171,7 +171,6 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if(userArgs[0] == 'setup' || userArgs[0] == '-s') {
   console.log(c.info('Seeting up botmap ! \n Note that you only have to use this once per release'))
   execSync('clear') //just to get rid of the ugly text
-  console.log(c.info('Starting server...'))
   console.log(c.info('Adding workspace...'))
   workspace()
   stopServer()

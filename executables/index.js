@@ -21,6 +21,11 @@ var _promptSync2 = _interopRequireDefault(_promptSync);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var client = new _msfnode2.default({
+  login: 'bot',
+  password: 'botpass'
+});
+
 var version = 'ALPHA 0.2.0';
 
 //set theme
@@ -152,11 +157,6 @@ function scan(target) {
   });
 }
 
-var client = new _msfnode2.default({
-  login: 'bot',
-  password: 'botpass'
-});
-
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 var userArgs = process.argv.slice(2);
 
@@ -180,7 +180,6 @@ if (userArgs[0] == 'target' || userArgs[0] == '-t') {
 } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
     console.log(_safe2.default.info('Seeting up botmap ! \n Note that you only have to use this once per release'));
     (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
-    console.log(_safe2.default.info('Starting server...'));
     console.log(_safe2.default.info('Adding workspace...'));
     workspace();
     stopServer();
