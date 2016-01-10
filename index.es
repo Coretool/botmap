@@ -187,7 +187,7 @@ function exploit(target, console_id) {
   console.log(c.info('starting scan... \n loading nexpose module'))
   //load nexpose
   console.log(c.info('loading nexpose...'))
-  let args = ['console.write', console_id, 'load nexpose']
+  let args = ['console.write', console_id, 'load nexpose \n']
   client.exec(args, (err, res) => {
     if(err) {
       console.error(c.error('Could not load nexpose module ! \n ' + err))
@@ -198,7 +198,7 @@ function exploit(target, console_id) {
   })
   //start full nexpose audit
   console.log(c.info('logging in to nexpose...'))
-  args = ['console.write', console_id, 'nexpose_connect bot:botpass@127.0.0.1']
+  args = ['console.write', console_id, 'nexpose_connect bot:botpass@127.0.0.1 \n']
   client.exec(args, (err, res) => {
     if(err) {
       console.error(c.err('Could not log in to local nexpose service !' + err))
@@ -209,7 +209,7 @@ function exploit(target, console_id) {
   })
   //start scan
   console.log(c.info('Starting actual scan now... '))
-  args = ['console.write', console_id, 'nexpose_scan -x' + target]
+  args = ['console.write', console_id, 'nexpose_scan -x \n' + target]
   client.exec(args, (err, res) => {
     if(err) {
       console.error(c.error('Could not scan' + target + '\n' + err))
@@ -220,7 +220,7 @@ function exploit(target, console_id) {
   })
   //meterpreter if possible
   console.log(c.info('Trying to connect using meterpreter...'))
-  args = ['console.write', console_id, 'sessions -i 1']
+  args = ['console.write', console_id, 'sessions -i 1 \n']
   client.exec(args, (err, res) => {
     if(err) {
       console.error(c.error('Could not connect to target [' + target + '] \n' +err))
@@ -251,7 +251,7 @@ function exploit(target, console_id) {
       })
       return false
     }
-    args = ['console.write', console_id, remoteCommand]
+    args = ['console.write', console_id, remoteCommand + '\n']
     client.exec(args, (err, res) => {
       if (err) {
         console.error(c.error('An error occured: \n ' + err))
