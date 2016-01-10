@@ -141,6 +141,28 @@ function macScan(target) {
 }
 
 function portScan(target, console_id) {
+  let args = ['console.write', console_id,'db_nmap -sS -n' + target +'\n']
+  client.exec(args, (err, r) => {
+    if(err) {
+      console.error(c.error('Could not scan target [' + target + ']' + err))
+      process.exit(1)
+    } else {
+      console.log(c.info('performed scan'))
+      let args = ['console.read', console_id]
+      client.exec(args, (err, res) => {
+        if(err) {
+          console.error(c.error('Could not read data ! \n' + err))
+          process.exit(1)
+        } else {
+          console.log(res)
+        }
+      })
+    }
+  })
+}
+
+
+function generalScan(target, console_id) {
   let args = ['console.write', console_id,'db_nmap -sS -sV -sU -n -O' + target +'\n']
   client.exec(args, (err, r) => {
     if(err) {
@@ -279,6 +301,25 @@ function userInteraction() {
     workspace(id)
     console.log(c.info('Done ! '))
 
+  } else if (userArgs[0] == 'scan' && userArgs[1] == 'mac' ) {
+    console.log(c.info('Mac address scan...'))
+    macScan(userArgs[2])
+    console.log(c.info('Done !'))
+
+  } else if (userArgs[0] == 'scan' && userArgs[1] == 'port') {
+    console.log(c.info('Port scan...'))
+    let id = startConsole()
+    startConsole()
+    switchWorkspace(id)
+    portScan(userArgs[2], id)
+    console.log(c.info('Done ! '))
+
+  } else if (userArgs[0] == 'scan' && userArgs[1] == 'general') {
+    console.log(c.info('General scan...'))
+    let id = startConsole()
+    startConsole()
+    switchWorkspace(id)
+    generalScan(userArgs[2], id)
   } else {
     console.log(c.help('Botmap version: ' + version + ' use "botmap -h" for the help menu'))
   }

@@ -26,7 +26,7 @@ var client = new _msfnode2.default({
   password: 'botpass'
 });
 
-var version = 'ALPHA 0.2.0';
+var version = 'BETA 0.3.0';
 
 //set theme
 _safe2.default.setTheme({
@@ -155,7 +155,7 @@ function macScan(target) {
 }
 
 function portScan(target, console_id) {
-  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -O' + target + '\n'];
+  var args = ['console.write', console_id, 'db_nmap -sS -n' + target + '\n'];
   client.exec(args, function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not scan target [' + target + ']' + err));
@@ -164,6 +164,27 @@ function portScan(target, console_id) {
       console.log(_safe2.default.info('performed scan'));
       var _args = ['console.read', console_id];
       client.exec(_args, function (err, res) {
+        if (err) {
+          console.error(_safe2.default.error('Could not read data ! \n' + err));
+          process.exit(1);
+        } else {
+          console.log(res);
+        }
+      });
+    }
+  });
+}
+
+function generalScan(target, console_id) {
+  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -O' + target + '\n'];
+  client.exec(args, function (err, r) {
+    if (err) {
+      console.error(_safe2.default.error('Could not scan target [' + target + ']' + err));
+      process.exit(1);
+    } else {
+      console.log(_safe2.default.info('performed scan'));
+      var _args2 = ['console.read', console_id];
+      client.exec(_args2, function (err, res) {
         if (err) {
           console.error(_safe2.default.error('Could not read data ! \n' + err));
           process.exit(1);
@@ -289,6 +310,23 @@ function userInteraction() {
       (0, _child_process.execSync)('clear'); //just to get rid of the ugly text
       workspace(id);
       console.log(_safe2.default.info('Done ! '));
+    } else if (userArgs[0] == 'scan' && userArgs[1] == 'mac') {
+      console.log(_safe2.default.info('Mac address scan...'));
+      macScan(userArgs[2]);
+      console.log(_safe2.default.info('Done !'));
+    } else if (userArgs[0] == 'scan' && userArgs[1] == 'port') {
+      console.log(_safe2.default.info('Port scan...'));
+      var id = startConsole();
+      startConsole();
+      switchWorkspace(id);
+      portScan(userArgs[2], id);
+      console.log(_safe2.default.info('Done ! '));
+    } else if (userArgs[0] == 'scan' && userArgs[1] == 'general') {
+      console.log(_safe2.default.info('General scan...'));
+      var id = startConsole();
+      startConsole();
+      switchWorkspace(id);
+      generalScan(userArgs[2], id);
     } else {
       console.log(_safe2.default.help('Botmap version: ' + version + ' use "botmap -h" for the help menu'));
     }
