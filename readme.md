@@ -2,60 +2,31 @@
 Botmap is a *pentest* bot.
 
 ## Note ##
-Only use this with permission of the targets owner ! If you don't have his or her permission you will do something illegal ! I am not responsible for what **you**
+Only use this with permission of the targets owner ! If you do not have his or her permission you will do something illegal ! I am not responsible for what **you**
 do with botmap.
 
 ## Introduction ##
+Botmap is a bot to automate pentests. It is still in a very early stage and every
+contribution is welcome.
 
-Botmap is a bot to automate pentests. It is still in a very early stage (ALPHA) and any kind of help is welcome !
+Botmap's functionalities are organized in `modes`. There are currently three modes:
+- Fire and Forget (FaF): Launch botmap in fire and forget mode. In this mode, botmap will go through the system and analyze as many devices as possible.
 
-This are the basic commands:
+- Scan: In scan mode, botmap will scan the selected target and perform auxiliaries on the targets.
 
-    botmap target [target ip]
+- Vulns: If vulns mode is selected, botmap will test the target for various known vulnerabilities.
 
-   This is the command to start botmap. Once started, botmap will launch a complete scan of the target (save it to the db ) and try the available exploits in the metasploit db.
-
-    botmap setup
-
- This will set up a workspace in the database to which botmap will switch to it everytime you fire it up.
-
-    botmap about
-
-Displays some info about botmap.
-
-
-    botmap scan general [target ip]
-
-General detection scan
-
-    botmap scan port [target ip]
-
-Port scan
-
-    botmap scan mac
-Mac address scan (Note that this doesn't require an ip)
-
-
-    botmap help
-    botmap -h
-
-   Displays the help text. (not added yet)
+When `scan` or `vulns` finishes, a report will be generated in a human readable markdown format as well as in a serialized CSV/JSON/XML format.
 
 ## Installation ##
-You need node.js version 0.12 or higher. See the wiki for more information.
-Open a console window and type:
 
-    git clone http://github.com/coretool/botmap.git
+    git clone https://www.github.com/coretool/botmap.git
     cd botmap
-    sudo npm install -g
-    sudo ln -s /usr/bin/nodejs /usr/bin/node # doesn't matter if it fails
+    python setup.py
 
+Then reopen your terminal and try it out by running:
 
+    botmap --version
 
-## Changelog ##
-
-0.2.0  :
-Big update: new architecture (metasploit calls now RPC based), restructured code (no exploit functions at the moment)
-
-0.1.0 :
- First version, nothing special here
+Note that botmap requires `python3`, `pip3` and `metasploit` to work properly.
+(Automatic metasploit installation and setup is intended to be implemented in a future version)
